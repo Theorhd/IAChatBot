@@ -2,6 +2,7 @@ from openai import OpenAI
 from myIA.imageGen import askDall_E
 from myIA.vision import imageAnalyze
 from myIA.t2s import chat_t2s
+from myIA.s2t import liveConv
 import time
 import os
 
@@ -43,6 +44,9 @@ def chatbot():
             user_input = user_input.replace("--t2s", "")
             chat_t2s(user_input)
 
+        elif user_input.startswith("--liveConv"):
+            liveConv()
+            
         else:
             try:
                 response = client.chat.completions.create(
