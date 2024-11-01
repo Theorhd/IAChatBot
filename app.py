@@ -1,5 +1,6 @@
 from openai import OpenAI
 from myIA.imageGen import askDall_E
+from myIA.vision import imageAnalyze
 import time
 import os
 
@@ -30,6 +31,12 @@ def chatbot():
             user_input = user_input.replace("--imageGen", "")
             dalle_response = askDall_E(user_input)
             print("Chatbot : Voici l'image générée : " + dalle_response)
+
+        elif user_input.startswith("--imageAnalyze"):
+            user_input = user_input.replace("--imageAnalyze", "")
+            image_url = user_input.strip()
+            imageAnalyze_response = imageAnalyze(image_url)
+            print("Chatbot : ", imageAnalyze_response)
             
         else:
             try:
