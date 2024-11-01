@@ -3,6 +3,7 @@ from myIA.imageGen import askDall_E
 from myIA.vision import imageAnalyze
 from myIA.t2s import chat_t2s
 from myIA.s2t import liveConv
+from myIA.liveTranslate import liveTranslate
 import time
 import os
 
@@ -11,7 +12,10 @@ if not os.path.exists(api_key_file):
     os.makedirs(os.path.dirname(api_key_file), exist_ok=True)
     
 with open(api_key_file, 'r') as file:
-    api_key = file.read().strip()
+    for line in file:
+        if line.startswith("OPENAI_API_KEY"):
+            api_key = line.split('=')[1].strip()
+            break
 client = OpenAI(api_key=api_key)
 
 
@@ -46,7 +50,10 @@ def chatbot():
 
         elif user_input.startswith("--liveConv"):
             liveConv()
-            
+
+        elif user_input.startswith("--liveTranslate"):
+            liveTranslate()
+
         else:
             try:
                 response = client.chat.completions.create(

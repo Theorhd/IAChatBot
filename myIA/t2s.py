@@ -28,7 +28,11 @@ def chat_t2s(user_input):
     api_key_file = os.path.join(parent, 'api_key.config')
     
     with open(api_key_file, 'r') as file:
-        api_key = file.read().strip()
+        for line in file:
+            if line.startswith("OPENAI_API_KEY"):
+                api_key = line.split('=')[1].strip()
+                break
+            api_key = api_key
 
     messages = [
         {"role": "system", "content": "Vous êtes un chatbot. Spécialisé dans les questions-réponses... (contenu ici)"}
