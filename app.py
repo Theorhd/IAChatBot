@@ -1,4 +1,5 @@
 from openai import OpenAI
+from myIA.imageGen import askDall_E
 import time
 import os
 
@@ -24,38 +25,43 @@ def chatbot():
         if user_input.lower() == 'quit':
             print("Chatbot : Merci pour cette conversation. À bientôt !")
             break
-
-        try:
-            response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages + [
-            {"role": "user", "content": user_input}
-            ],
-            temperature=1,
-            max_tokens=2048,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            response_format={
-                "type": "text"
-            })
-
-            messages.append({"role": "user", "content": user_input})
-            bot_reply = response.choices[0].message.content
-            messages.append({"role": "assistant", "content": bot_reply})
-            print("Chatbot :", bot_reply)
+        
+        if user_input.startswith("--imageGen"):
+            user_input = user_input.replace("--imageGen", "")
+            dalle_response = askDall_E(user_input)
+            print("Chatbot : Voici l'image générée : " + dalle_response)
             
-            if len(messages) > 20:
-                messages = messages[-20:]
-            
-        except OpenAI.error.RateLimitError:
-            print("Limite de taux dépassée, veuillez réessayer plus tard.")
-            time.sleep(60)  
-        except OpenAI.error.BadRequestError as e:
-            print("Erreur dans la requête :", e)
-        except Exception as e:
-            print("Une erreur s'est produite :", e)
+        else:
+            try:
+                response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=messages + [
+                {"role": "user", "content": user_input}
+                ],
+                temperature=1,
+                max_tokens=2048,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0,
+                response_format={
+                    "type": "text"
+                })
 
+                messages.append({"role": "user", "content": user_input})
+                bot_reply = response.choices[0].message.content
+                messages.append({"role": "assistant", "content": bot_reply})
+                print("Chatbot :", bot_reply)
+                
+                if len(messages) > 20:
+                    messages = messages[-20:]
+                
+            except OpenAI.error.RateLimitError:
+                print("Limite de taux dépassée, veuillez réessayer plus tard.")
+                time.sleep(60)  
+            except OpenAI.error.BadRequestError as e:
+                print("Erreur dans la requête :", e)
+            except Exception as e:
+                print("Une erreur s'est produite :", e)
 
 if __name__ == "__main__":
     chatbot()
