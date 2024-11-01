@@ -12,13 +12,10 @@ def speech_to_text():
         try:
             text = recognizer.recognize_google(audio, language="fr-FR")
             print("Vous avez dit : " + text)
-            return text
         except sr.UnknownValueError:
             print("Impossible de comprendre l'audio")
-            return None
         except sr.RequestError as e:
             print("Erreur avec le service Google Speech Recognition ; {0}".format(e))
-            return None
 
 def liveConv():
     while True:

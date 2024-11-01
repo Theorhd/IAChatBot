@@ -7,7 +7,6 @@ from openai import OpenAI
 from mutagen.mp3 import MP3
 
 def text_to_speech(text, lang='fr'):
-    # Utiliser un fichier temporaire sans accents
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
         mp3_filename = temp_file.name
 
@@ -15,14 +14,12 @@ def text_to_speech(text, lang='fr'):
     tts.save(mp3_filename)
 
     try:
-        # Charger et obtenir la durée du fichier audio
         audio = MP3(mp3_filename)
         duration = audio.info.length
         playsound(mp3_filename)
     except Exception as e:
         print(f"Erreur lors de la lecture du fichier audio : {e}")
     finally:
-        # Attendre la fin de la lecture puis supprimer le fichier
         time.sleep(duration)
         os.remove(mp3_filename)
 
