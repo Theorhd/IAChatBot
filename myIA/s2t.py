@@ -20,4 +20,5 @@ def speech_to_text():
 def liveConv():
     while True:
         text = speech_to_text()
-        chat_t2s(text)
+        if (text):
+            chat_t2s(text)
