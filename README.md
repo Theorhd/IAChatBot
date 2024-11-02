@@ -10,6 +10,7 @@
 - **Synthèse vocale** : Commande : `--t2s + {prompt}` : pour que le texte sortie par TheoGPT soit en audio.
 - **Conversation en temps réel (Speech-to-Text to Text-to-Speech)** : Commande : `--liveConv` : pour activer une conversation vocale.
 - **Traduction en direct** : Commande : `--liveTranslate` : pour activer une traduction en temps réel par le micro.
+- **Ajout d'information a TheoGPT** : Commande : `--addinfo {role} {content}` pour ajouter une information dans la mémoire de TheoGPT de façon permanante.
 
 ## Installation
 

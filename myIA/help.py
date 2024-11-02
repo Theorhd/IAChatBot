@@ -13,6 +13,7 @@ Commandes disponibles pour TheoGPT:
    --t2s <texte>                : Convertit le texte de sortie de TheoGPT en audio (Text-to-Speech).
    --liveConv                   : Lance une conversation vocale en continu (Speech-to-Text et Text-to-Speech).
    --liveTranslate              : Traduction vocale en temps réel vers une langue spécifiée.
+   --addInfo <role> <info>      : Ajoute une information à la mémoire de TheoGPT de façon permanante.
 
 3. Quitter:
    - Tapez "quit" pour quitter la conversation.
