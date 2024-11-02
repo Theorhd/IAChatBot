@@ -7,7 +7,7 @@
 - **Réponses sur le développement logiciel et web** : TheoGPT est capable de répondre aux questions concernant de nombreux langages de programmation (Python, JavaScript, Java, etc.), les frameworks populaires, les bases de données, les systèmes d'exploitation, les bonnes pratiques de développement, les tests logiciels et plus encore.
 - **Génération d'images avec DALL-E** : Commande : `--imageGen + {prompt}` : pour générer des images basées sur des descriptions.
 - **Analyse d'images** : Commande : `--imageAnalyze + {url vers une image}` : pour analyser des images et fournir des informations.
-- **Synthèse vocale** : Commande : `--t2s + {prompt}` : pour générer une sortie audio à partir de texte.
+- **Synthèse vocale** : Commande : `--t2s + {prompt}` : pour que le texte sortie par TheoGPT soit en audio.
 - **Conversation en temps réel (Speech-to-Text to Text-to-Speech)** : Commande : `--liveConv` : pour activer une conversation vocale.
 - **Traduction en direct** : Commande : `--liveTranslate` : pour activer une traduction en temps réel par le micro.
 
