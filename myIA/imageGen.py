@@ -17,6 +17,7 @@ class ImageGen:
         self.client = OpenAI(api_key=api_key)
 
     def ask_dall_e(self, prompt):
+        prompt = self.optimize_prompt(prompt)
         try:
             DallE_response = self.client.images.generate(
                 model="dall-e-3",
@@ -34,3 +35,15 @@ class ImageGen:
             return "Erreur dans la requête : " + str(e)
         except OpenAI.error.UnauthorizedError:
             return "Erreur d'authentification. Veuillez vérifier votre clé API."
+        
+    def optimize_prompt(self, prompt):
+        optimize_response = self.client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": "Crée un prompt optimisé pour l'ia génératrice Dall-E, le prompt doit etre en anglais et bien décrire l'image souhaité, à partir du prompt suivant : " + prompt}],
+            temperature=1,
+            max_tokens=2048,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+        return optimize_response.choices[0].message.content
