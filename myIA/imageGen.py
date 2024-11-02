@@ -18,7 +18,6 @@ class ImageGen:
 
     def ask_dall_e(self, prompt):
         prompt = self.optimize_prompt(prompt)
-        print("Prompt optimisé pour Dall-E :", prompt)
         try:
             DallE_response = self.client.images.generate(
                 model="dall-e-3",
