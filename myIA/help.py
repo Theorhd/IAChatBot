@@ -10,7 +10,7 @@ Commandes disponibles pour TheoGPT:
 2. Commandes spéciales:
    --imageGen <description>     : Génère une image en fonction de la description donnée.
    --imageAnalyze <url_image>   : Analyse l'image située à l'URL fournie.
-   --t2s <texte>                : Convertit le texte donné en audio (Text-to-Speech).
+   --t2s <texte>                : Convertit le texte de sortie de TheoGPT en audio (Text-to-Speech).
    --liveConv                   : Lance une conversation vocale en continu (Speech-to-Text et Text-to-Speech).
    --liveTranslate              : Traduction vocale en temps réel vers une langue spécifiée.
 
