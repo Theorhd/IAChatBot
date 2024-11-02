@@ -1,4 +1,5 @@
 from openai import OpenAI
+from myIA.help import help
 from myIA.imageGen import askDall_E
 from myIA.vision import imageAnalyze
 from myIA.t2s import chat_t2s
@@ -32,6 +33,9 @@ def chatbot():
         if user_input.lower() == 'quit':
             print("Chatbot : Merci pour cette conversation. À bientôt !")
             break
+
+        elif user_input.startswith('--help'):
+            help()
         
         if user_input.startswith("--imageGen"):
             user_input = user_input.replace("--imageGen", "")
