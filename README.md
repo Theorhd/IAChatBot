@@ -22,6 +22,15 @@
     ```bash
     pip install -r requirements.txt
     ```
+    ```bash
+    !! Important !!
+    Si un problème survient lors de l'installation de `requirements.txt`, effectuez les commandes suivantes dans PowerShell :
+    pip install setuptools
+    pip install --upgrade wheel
+
+    Si après avoir effectué ces lignes, `requirements.txt` affiche toujours une erreur lors de l'installation :
+    pip cache purge
+    ```
 
 3. Créez un fichier de configuration de clé API nommé `api_key.config` et ajoutez votre clé OpenAI et GoogleCloudTranslate :
     ```text
