@@ -1,5 +1,7 @@
-def help():
-    help_text = """
+class Help:
+    @staticmethod
+    def display():
+        help_text = """
 Commandes disponibles pour TheoGPT:
 
 1. Général:
@@ -18,5 +20,5 @@ Commandes disponibles pour TheoGPT:
 Exemple d'utilisation:
 - Pour générer une image, tapez: --imageGen Un chat mignon avec un chapeau
 - Pour analyser une image, tapez: --imageAnalyze http://exemple.com/monimage.jpg
-    """
-    print(help_text)
+        """
+        print(help_text)
