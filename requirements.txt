@@ -1,0 +1,6 @@
+openai
+gtts
+playsound
+mutagen
+speechrecognition
+requests
