@@ -19,30 +19,22 @@
     git clone https://github.com/Theorhd/IAChatBot.git
     ```
 
-2. Installez les dépendances :
-    ```bash
-    pip install -r requirements.txt
+2. Installation du programme :
+    ```text
+    1 - Lancer le fichier installer.bat pour installer les dépendances.
+    2 - Ajoutez vos clés API dans le fichier api_key.config.
+    3 - Lancer le programme avec start.bat.
     ```
     ```bash
     !! Important !!
-    Si un problème survient lors de l'installation de `requirements.txt`, effectuez les commandes suivantes dans PowerShell :
-    pip install setuptools
-    pip install --upgrade wheel
-
-    Si après avoir effectué ces lignes, `requirements.txt` affiche toujours une erreur lors de l'installation :
+    Si un problème survient lors de l'installation de `installer.bat`, effectuez les commandes suivantes dans PowerShell :
     pip cache purge
-    ```
-
-3. Créez un fichier de configuration de clé API nommé `api_key.config` et ajoutez votre clé OpenAI et GoogleCloudTranslate :
-    ```text
-    OPENAI_API_KEY=your_api_key_here
-    GOOGLE_CLOUD_API_KEY=your_api_key_here
     ```
 
 ## Utilisation
 
-Lancez le chatbot en exécutant le fichier principal :
+Lancez le chatbot en exécutant le fichier start.bat :
 
 ```bash
-python app.py
+start.bat
 ```
