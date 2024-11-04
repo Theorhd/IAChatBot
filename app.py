@@ -6,6 +6,7 @@ from myIA.t2s import TextToSpeech
 from myIA.s2t import LiveConv
 from myIA.liveTranslate import LiveTranslate
 from myIA.memory import Memory
+from myIA.weather import Weather
 import time
 import os
 
@@ -77,6 +78,18 @@ class Chatbot:
                 key, value = user_input.split(" ", 1)
                 Chatbot().add_message(key, value)
                 
+            elif "meteo" in user_input:
+                city_name = Weather().get_city_in_user_input(user_input)
+                weather = Weather().get_weather(city_name)
+                if weather["cod"] != "404":
+                    main = weather["main"]
+                    temperature = main["temp"] - 273.15
+                    humidity = main["humidity"]
+                    description = weather["weather"][0]["description"]
+                    print(f"Chatbot : La température à {city_name} est de {temperature:.2f}°C, l'humidité est de {humidity}% et le temps est {description}.")
+                else:
+                    print("Chatbot : Ville non trouvée.")
+            
             else:
                 self.get_response(user_input)
 
