@@ -20,6 +20,7 @@ logging.basicConfig(
 class SpeechToText:
     def __init__(self):
         self.recognizer = sr.Recognizer()
+        self.recognizer.pause_threshold = 1
         logging.info("Initialisation de la reconnaissance vocale.")
 
     def speech_to_text(self):
@@ -67,5 +68,4 @@ class LiveConv:
                 else:
                     print("Chatbot : Je ne connais pas cette ville.")
             else:
-                response = tts.chat_t2s(text) 
-                logging.info("Réponse de l'IA : " + response)
+                tts.chat_t2s(text)
