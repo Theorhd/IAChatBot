@@ -6,6 +6,7 @@ import tempfile
 from openai import OpenAI
 from mutagen.mp3 import MP3
 import logging
+import threading
 
 parent = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 chemin_log = os.path.join(parent, "logs", "theogpt.log")
@@ -56,6 +57,10 @@ class TextToSpeech:
             time.sleep(duration)
             os.remove(mp3_filename)
             logging.info("Fichier audio temporaire supprimé.")
+
+    def start_text_to_speech_thread(self, text, lang='fr'):
+        thread = threading.Thread(target=self.text_to_speech, args=(text, lang))
+        thread.start()
 
     def chat_t2s(self, user_input):
         messages = [
