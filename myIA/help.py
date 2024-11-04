@@ -1,3 +1,19 @@
+import logging
+import os
+
+parent = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+chemin_log = os.path.join(parent, "logs", "theogpt.log")
+if not os.path.exists(os.path.dirname(chemin_log)):
+    os.makedirs(os.path.dirname(chemin_log), exist_ok=True)
+logging.basicConfig(
+    filename=(chemin_log),
+    filemode="a",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(filename)s - %(message)s",
+    datefmt="%d/%m/%Y - %H:%M:%S",
+    encoding='utf-8'
+)
+
 class Help:
     @staticmethod
     def display():
@@ -23,3 +39,4 @@ Exemple d'utilisation:
 - Pour analyser une image, tapez: --imageAnalyze http://exemple.com/monimage.jpg
         """
         print(help_text)
+        logging.info("Affichage de l'aide.")

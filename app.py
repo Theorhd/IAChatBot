@@ -6,6 +6,7 @@ from myIA.t2s import TextToSpeech
 from myIA.s2t import LiveConv
 from myIA.liveTranslate import LiveTranslate
 from myIA.memory import Memory
+from myIA.weather import Weather
 import time
 import os
 
@@ -29,6 +30,7 @@ class Chatbot:
         ]
         self.tts = TextToSpeech()
         self.image_analyzer = ImageAnalyzer()
+        self.weather = Weather()
 
     def add_message(self, role, content):
         """Ajoute un message et le sauvegarde dans la mémoire JSON"""
@@ -77,6 +79,14 @@ class Chatbot:
                 key, value = user_input.split(" ", 1)
                 Chatbot().add_message(key, value)
                 
+            elif self.weather.user_askMeteo(user_input):
+                city = self.weather.get_city_in_user_input(user_input)
+                if city:
+                    city_insee = self.weather.get_insee(city)
+                    self.weather.display_weather(city_insee)
+                else:
+                    print("Chatbot : Je ne connais pas cette ville.")
+            
             else:
                 self.get_response(user_input)
 
