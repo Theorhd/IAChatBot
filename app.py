@@ -66,7 +66,16 @@ class Chatbot:
 
             elif user_input.startswith("--t2s"):
                 user_input = user_input.replace("--t2s", "").strip()
-                self.tts.chat_t2s(user_input) 
+                if self.weather.user_askMeteo(user_input):
+                    city = self.weather.get_city_in_user_input(user_input)
+                    if city:
+                        city_insee = self.weather.get_insee(city)
+                        weather_info = self.weather.display_weather(city_insee)
+                        self.tts.start_text_to_speech_thread(weather_info)
+                    else:
+                        print("Chatbot : Je ne connais pas cette ville.")
+                else:
+                    self.tts.chat_t2s(user_input) 
 
             elif user_input.startswith("--liveConv"):
                 LiveConv().start()
