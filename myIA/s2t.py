@@ -1,5 +1,6 @@
 import speech_recognition as sr
 from myIA.t2s import TextToSpeech
+from myIA.weather import Weather
 import os
 import logging
 
@@ -56,6 +57,14 @@ class LiveConv:
                 print("Fin de la conversation.")
                 logging.info("Fin de la conversation.")
                 break
+            
+            elif Weather().user_askMeteo(text):
+                city = Weather().get_city_in_user_input(text)
+                if city:
+                    city_insee = Weather().get_insee(city)
+                    Weather().display_weather(city_insee)
+                else:
+                    print("Chatbot : Je ne connais pas cette ville.")
             else:
                 response = tts.chat_t2s(text) 
                 logging.info("Réponse de l'IA : " + response)

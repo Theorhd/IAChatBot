@@ -30,6 +30,7 @@ class Chatbot:
         ]
         self.tts = TextToSpeech()
         self.image_analyzer = ImageAnalyzer()
+        self.weather = Weather()
 
     def add_message(self, role, content):
         """Ajoute un message et le sauvegarde dans la mémoire JSON"""
@@ -78,17 +79,13 @@ class Chatbot:
                 key, value = user_input.split(" ", 1)
                 Chatbot().add_message(key, value)
                 
-            elif "meteo" in user_input:
-                city_name = Weather().get_city_in_user_input(user_input)
-                weather = Weather().get_weather(city_name)
-                if weather["cod"] != "404":
-                    main = weather["main"]
-                    temperature = main["temp"] - 273.15
-                    humidity = main["humidity"]
-                    description = weather["weather"][0]["description"]
-                    print(f"Chatbot : La température à {city_name} est de {temperature:.2f}°C, l'humidité est de {humidity}% et le temps est {description}.")
+            elif self.weather.user_askMeteo(user_input):
+                city = self.weather.get_city_in_user_input(user_input)
+                if city:
+                    city_insee = self.weather.get_insee(city)
+                    self.weather.display_weather(city_insee)
                 else:
-                    print("Chatbot : Ville non trouvée.")
+                    print("Chatbot : Je ne connais pas cette ville.")
             
             else:
                 self.get_response(user_input)
