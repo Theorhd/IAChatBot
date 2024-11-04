@@ -26,6 +26,7 @@ class Weather:
         Chance de pluie : {weather['Chance de pluie']} %
         """
         print(weather_info)
+        return f"La météo à {weather['Ville']}, Température de : {weather['Temperature Min']}°C à {weather['Temperature Max']}°C. Le vent souffle à {weather['Vent']} km/h. Il y a {weather['sun_hours']} heures d'ensoleillement et une chance de pluie de {weather['Chance de pluie']} %."
     
     def get_city_in_user_input(self, user_input):
         city_name = ""

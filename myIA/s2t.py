@@ -62,7 +62,8 @@ class LiveConv:
                 city = Weather().get_city_in_user_input(text)
                 if city:
                     city_insee = Weather().get_insee(city)
-                    Weather().display_weather(city_insee)
+                    response = Weather().display_weather(city_insee)
+                    tts.text_to_speech(response, lang="fr")
                 else:
                     print("Chatbot : Je ne connais pas cette ville.")
             else:
