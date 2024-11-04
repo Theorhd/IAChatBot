@@ -11,6 +11,7 @@
 - **Conversation en temps réel (Speech-to-Text to Text-to-Speech)** : Commande : `--liveConv` : pour activer une conversation vocale.
 - **Traduction en direct** : Commande : `--liveTranslate` : pour activer une traduction en temps réel par le micro.
 - **Ajout d'information a TheoGPT** : Commande : `--addinfo {role} {content}` pour ajouter une information dans la mémoire de TheoGPT de façon permanante.
+- **Météo** : Demandez au ChatBot de vous donné la météo pour une ville. Exemple : Quelle temps a Toulouse ?
 
 ## Installation
 
