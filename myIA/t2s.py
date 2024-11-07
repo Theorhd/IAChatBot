@@ -87,8 +87,7 @@ class TextToSpeech:
             messages.append({"role": "assistant", "content": bot_reply})
             bot_reply_t2s = bot_reply
             md = Markdown(bot_reply)
-            bot_reply = self.console.print(md)
-            print("Chatbot :", bot_reply)
+            self.console.print("Chatbot :", md)
             self.text_to_speech(bot_reply_t2s)
 
             if len(messages) > 20:

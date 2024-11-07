@@ -112,8 +112,7 @@ class Chatbot:
             bot_reply = response.choices[0].message.content
             self.messages.append({"role": "assistant", "content": bot_reply})
             md = Markdown(bot_reply)
-            bot_reply = self.console.print(md)
-            print("Chatbot :", bot_reply)
+            self.console.print("Chatbot :", md)
 
             if len(self.messages) > 20:
                 self.messages = self.messages[-20:]
