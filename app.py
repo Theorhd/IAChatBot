@@ -7,6 +7,7 @@ from myIA.s2t import LiveConv
 from myIA.liveTranslate import LiveTranslate
 from myIA.memory import Memory
 from myIA.weather import Weather
+from login.login import UserManager
 import time
 import os
 
@@ -31,6 +32,7 @@ class Chatbot:
         self.tts = TextToSpeech()
         self.image_analyzer = ImageAnalyzer()
         self.weather = Weather()
+        self.user_manager = UserManager()
 
     def add_message(self, role, content):
         """Ajoute un message et le sauvegarde dans la mémoire JSON"""
@@ -43,6 +45,7 @@ class Chatbot:
     
     def start(self):
         print("Bonjour ! Posez-moi une question (ou tapez 'quit' pour quitter).")
+        self.user_manager.connection_menu()
         while True:
             user_input = input("Vous : ")
 
