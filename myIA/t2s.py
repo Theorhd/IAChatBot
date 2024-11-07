@@ -70,7 +70,7 @@ class TextToSpeech:
         client = OpenAI(api_key=self.api_key)
         try:
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4o-mini",
                 messages=messages + [{"role": "user", "content": user_input}],
                 temperature=1,
                 max_tokens=2048,
