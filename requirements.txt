@@ -4,3 +4,4 @@ playsound
 mutagen
 speechrecognition
 requests
+rich
