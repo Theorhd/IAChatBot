@@ -2,3 +2,4 @@ api_key.config
 __pycache__/
 /logs/
 chatbot_data.json
+login.db
