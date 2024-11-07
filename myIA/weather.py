@@ -51,7 +51,7 @@ class Weather:
         return None
     
     def user_askMeteo(self, user_input):
-        if any(phrase in user_input.lower() for phrase in ['meteo', 'quelle temps fait il', 'temps', 'température', 'temperature', 'météo', 'météo aujourd\'hui']):
+        if any(phrase in user_input.lower() for phrase in ['meteo', 'quelle temps fait il', 'quelle temps', 'température', 'temperature', 'météo', 'météo aujourd\'hui']):
             return True
         else:
             return False
