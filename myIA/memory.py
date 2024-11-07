@@ -27,12 +27,12 @@ class Memory:
 
     def load(self):
         if os.path.exists(data_json):
-            with open(data_json, 'r') as file:
+            with open(data_json, 'r', encoding='utf-8') as file:
                 self.data = json.load(file)
         logging.info("Chargement de la mémoire du chatbot.")
 
     def save(self):
-        with open(data_json, 'w') as file:
+        with open(data_json, 'w', encoding='utf-8') as file:
             json.dump(self.data, file, indent=4)
         logging.info("Sauvegarde de la mémoire du chatbot.")
 
