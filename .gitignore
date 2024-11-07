@@ -3,3 +3,4 @@ __pycache__/
 /logs/
 chatbot_data.json
 login.db
+/venv/
