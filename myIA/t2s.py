@@ -7,6 +7,8 @@ from openai import OpenAI
 from mutagen.mp3 import MP3
 import logging
 import threading
+from rich.markdown import Markdown
+from rich.console import Console
 
 parent = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 chemin_log = os.path.join(parent, "logs", "theogpt.log")
@@ -25,6 +27,7 @@ class TextToSpeech:
     def __init__(self):
         self.api_key = self.load_api_key()
         logging.info("Initialisation de la synthèse vocale.")
+        self.console = Console()
 
     def load_api_key(self):
         parent = os.path.dirname(os.path.dirname(__file__))
@@ -82,8 +85,11 @@ class TextToSpeech:
 
             bot_reply = response.choices[0].message.content
             messages.append({"role": "assistant", "content": bot_reply})
+            bot_reply_t2s = bot_reply
+            md = Markdown(bot_reply)
+            bot_reply = self.console.print(md)
             print("Chatbot :", bot_reply)
-            self.text_to_speech(bot_reply)
+            self.text_to_speech(bot_reply_t2s)
 
             if len(messages) > 20:
                 messages = messages[-20:]
