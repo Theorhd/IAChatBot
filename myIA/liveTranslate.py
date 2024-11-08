@@ -26,7 +26,9 @@ class Translate:
         params = {
             'q': text,
             'target': target_lang,
-            'key': self.api_key
+            'key': self.api_key,
+            'format': 'text',
+            'encode': 'utf-8'
         }
 
         try:

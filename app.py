@@ -114,9 +114,6 @@ class Chatbot:
             md = Markdown(bot_reply)
             self.console.print("Chatbot :", md)
 
-            if len(self.messages) > 20:
-                self.messages = self.messages[-20:]
-
         except OpenAI.error.RateLimitError:
             print("Limite de taux dépassée, veuillez réessayer plus tard.")
             time.sleep(60)

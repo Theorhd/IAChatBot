@@ -49,15 +49,14 @@ class TextToSpeech:
         tts.save(mp3_filename)
         logging.info("Fichier audio temporaire créé.")
         try:
-            audio = MP3(mp3_filename)
-            duration = audio.info.length
+            MP3(mp3_filename)
             playsound(mp3_filename)
             logging.info("Lecture du fichier audio.")
         except Exception as e:
             print(f"Erreur lors de la lecture du fichier audio : {e}")
             logging.error(f"Erreur lors de la lecture du fichier audio : {e}")
         finally:
-            time.sleep(duration)
+            time.sleep(1)
             os.remove(mp3_filename)
             logging.info("Fichier audio temporaire supprimé.")
 
