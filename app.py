@@ -10,6 +10,9 @@ from myIA.weather import Weather
 from login.login import UserManager
 import time
 import os
+import sys
+import itertools
+import threading
 from rich.console import Console
 from rich.markdown import Markdown
 
@@ -36,6 +39,7 @@ class Chatbot:
         self.weather = Weather()
         self.user_manager = UserManager()
         self.console = Console()
+        self.stop_loading_event = threading.Event()
 
     def add_message(self, role, content):
         """Ajoute un message et le sauvegarde dans la mémoire JSON"""
@@ -96,7 +100,17 @@ class Chatbot:
             else:
                 self.get_response(user_input)
 
+    def loader(self):
+        spin = itertools.cycle(['| ', '/ ', '- ', '\\ '])
+        while not self.stop_loading_event.is_set():
+            sys.stdout.write(f'\rLoading {next(spin)}')
+            sys.stdout.flush()
+            time.sleep(0.1)
+
     def get_response(self, user_input):
+        self.stop_loading_event.clear()
+        loader_thread = threading.Thread(target=self.loader)
+        loader_thread.start()
         try:
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
@@ -107,6 +121,8 @@ class Chatbot:
                 frequency_penalty=0,
                 presence_penalty=0
             )
+            self.stop_loading_event.set()
+            loader_thread.join()
 
             self.messages.append({"role": "user", "content": user_input})
             bot_reply = response.choices[0].message.content
