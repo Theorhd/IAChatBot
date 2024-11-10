@@ -13,6 +13,7 @@ import os
 import sys
 import itertools
 import threading
+import json
 from rich.console import Console
 from rich.markdown import Markdown
 
@@ -49,7 +50,17 @@ class Chatbot:
         self.messages.append({"role": role, "content": content})
         self.memory.add("messages", self.messages)
         print(f"L'information : '{content}' a été ajouté avec succès. Avce le rôle : '{role}'.")
-    
+
+    def load_session(self, session_name):
+        """Charge une session sauvegardée dans la mémoire JSON"""
+        session_path = os.path.join('sessions', f"{session_name}.json")
+        if os.path.exists(session_path):
+            with open(session_path, 'r') as file:
+                self.messages = json.load(file)
+                print(f"Session '{session_name}' chargée avec succès.")
+        else:
+            print(f"Session '{session_name}' non trouvée.")
+
     def start(self):
         print("Bonjour ! Posez-moi une question (ou tapez 'quit' pour quitter).")
         self.user_manager.connection_menu()
@@ -97,6 +108,15 @@ class Chatbot:
                 else:
                     print("Chatbot : Je ne connais pas cette ville.")
             
+            elif user_input.startswith("--saveSession"):
+                user_input = user_input.replace("--saveSession", "").strip()
+                self.memory.save_session(user_input)
+                print("Chatbot : La session a été sauvegardée avec succès.")
+
+            elif user_input.startswith("--loadSession"):
+                user_input = user_input.replace("--loadSession", "").strip()
+                self.load_session(user_input)
+
             else:
                 self.get_response(user_input)
 
@@ -124,9 +144,11 @@ class Chatbot:
             self.stop_loading_event.set()
             loader_thread.join()
 
-            self.messages.append({"role": "user", "content": user_input})
             bot_reply = response.choices[0].message.content
+            self.messages.append({"role": "user", "content": user_input})
             self.messages.append({"role": "assistant", "content": bot_reply})
+            self.memory.add_message_to_conversation_session("user", user_input)
+            self.memory.add_message_to_conversation_session("assistant", bot_reply)
             md = Markdown(bot_reply)
             self.console.print("Chatbot :", md)
 

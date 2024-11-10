@@ -23,6 +23,7 @@ class Memory:
     def __init__(self):
         self.data = {}
         self.load()
+        self.conversation = []
         logging.info("Initialisation de la mémoire du chatbot.")
 
     def load(self):
@@ -55,3 +56,20 @@ class Memory:
             del self.data[key]
             self.save()
             logging.info(f"Suppression de la clé '{key}' de la mémoire du chatbot.")
+    
+    def add_message_to_conversation_session(self, role, content):
+        """Ajoute un message et le sauvegarde dans la mémoire JSON"""
+        if role not in ["user", "assistant", "system"]:
+            logging.error("Le rôle doit être 'user', 'assistant' ou 'system'.")
+            return None
+        self.conversation.append({"role": role, "content": content})
+        return True
+    
+    def save_session(self, name):
+        session_dir = os.path.join(parent, "sessions")
+        if not os.path.exists(session_dir):
+            os.makedirs(session_dir, exist_ok=True)
+        session_path = os.path.join(session_dir, f"{name}.json")
+        with open(session_path, 'w', encoding='utf-8') as file:
+            json.dump(self.conversation, file, indent=4)
+        logging.info(f"Sauvegarde de la session de conversation '{name}'.")
