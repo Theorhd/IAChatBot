@@ -24,12 +24,16 @@ Commandes disponibles pour TheoGPT:
    - Tapez votre question directement pour recevoir une réponse.
 
 2. Commandes spéciales:
-   --imageGen <description>     : Génère une image en fonction de la description donnée.
-   --imageAnalyze <url_image>   : Analyse l'image située à l'URL fournie.
-   --t2s <texte>                : Convertit le texte de sortie de TheoGPT en audio (Text-to-Speech).
-   --liveConv                   : Lance une conversation vocale en continu (Speech-to-Text et Text-to-Speech).
-   --liveTranslate              : Traduction vocale en temps réel vers une langue spécifiée.
-   --addInfo <role> <info>      : Ajoute une information à la mémoire de TheoGPT de façon permanante.
+    --imageGen <description>            : Génère une image en fonction de la description donnée.
+    --imageAnalyze <url_image>          : Analyse l'image située à l'URL fournie.
+    --t2s <texte>                       : Convertit le texte de sortie de TheoGPT en audio (Text-to-Speech).
+    --liveConv                          : Lance une conversation vocale en continu (Speech-to-Text et Text-to-Speech).
+    --liveTranslate                     : Traduction vocale en temps réel vers une langue spécifiée.
+    --addInfo <role> <info>             : Ajoute une information à la mémoire de TheoGPT de façon permanante.
+    --saveSession <nom_de_session>      : Sauvegarde la session de conversation actuelle.
+    --loadSession <nom_de_session>      : Charge la session de conversation précédemment sauvegardée.
+    --createSession                     : Crée une nouvelle session de conversation.
+    --deleteSession <nom_de_session>    : Supprime la session de conversation actuelle.
 
 3. Quitter:
    - Tapez "quit" pour quitter la conversation.

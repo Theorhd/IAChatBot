@@ -73,6 +73,15 @@ class Memory:
         with open(session_path, 'w', encoding='utf-8') as file:
             json.dump(self.conversation, file, indent=4)
         logging.info(f"Sauvegarde de la session de conversation '{name}'.")
+    
+    def delete_session(self, name):
+        session_path = os.path.join(parent, "sessions", f"{name}.json")
+        if os.path.exists(session_path):
+            os.remove(session_path)
+            logging.info(f"Suppression de la session de conversation '{name}'.")
+            return True
+        logging.error(f"La session de conversation '{name}' n'existe pas.")
+        return False
 
     def create_other_session(self):
         self.conversation = []
