@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+from tabulate import tabulate
 from rich.console import Console
 from rich.markdown import Markdown
 
@@ -101,7 +102,18 @@ class Memory:
         if os.path.exists(sessions_dir):
             sessions = os.listdir(sessions_dir)
             if sessions:
-                return [os.path.splitext(session)[0] for session in sessions]
+                session_names = [[os.path.splitext(session)[0]] for session in sessions]
+                table = tabulate(session_names, headers=["Sessions"], tablefmt="fancy_grid", stralign="center", numalign="center", colalign=("center",))
+                texte = f"""
+==============================
+    Historique des sessions
+==============================
+
+{table}
+
+==============================
+"""
+                return texte
         return False
     
     def display_session_content(self, session_name):

@@ -70,7 +70,7 @@ Session '{session_name}' chargée avec succès.
         print("Bonjour ! Posez-moi une question (ou tapez 'quit' pour quitter).")
         if (self.memory.display_sessions_history()):
             print('')
-            print("Voici les sessions de chat sauvegardées : ", self.memory.display_sessions_history())
+            print(self.memory.display_sessions_history())
             print("Pour charger une session, tapez '--loadSession nom_de_la_session'.")
             print('')
         while True:
