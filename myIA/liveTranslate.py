@@ -51,12 +51,15 @@ class LiveTranslate:
         api_key_file = 'api_key.config'
         if not os.path.exists(api_key_file):
             os.makedirs(os.path.dirname(api_key_file), exist_ok=True)
-
-        with open(api_key_file, 'r') as file:
-            for line in file:
-                if line.startswith("GOOGLE_CLOUD_API_KEY"):
-                    api_key = line.split('=')[1].strip()
-                    break
+        try:
+            with open(api_key_file, 'r') as file:
+                for line in file:
+                    if line.startswith("GOOGLE_CLOUD_API_KEY"):
+                        api_key = line.split('=')[1].strip()
+                        break
+        except Exception as e:
+            print(f"Erreur lors de la lecture de la clé API : {e}")
+            logging.error(f"Erreur lors de la lecture de la clé API : {e}")
 
         langue_target = input("Dans quelle langue voulez-vous traduire le texte ? (ex: en pour anglais) : ").strip().lower()
         logging.info(f"Langue cible de traduction : {langue_target}")
@@ -72,7 +75,11 @@ class LiveTranslate:
             if texte_traduit is not None:
                 print("Traduction :", texte_traduit)
                 logging.info(f"Traduction : {texte_traduit}")
-                TextToSpeech().text_to_speech(texte_traduit, lang=langue_target)
+                try:
+                    TextToSpeech().text_to_speech(texte_traduit, lang=langue_target)
+                except Exception as e:
+                    print(f"Erreur lors de la synthèse vocale : {e}")
+                    logging.error(f"Erreur lors de la synthèse vocale : {e}")
             else:
                 print("Impossible de traduire le texte.")
                 logging.error("Impossible de traduire le texte.")

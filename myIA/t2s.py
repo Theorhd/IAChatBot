@@ -42,23 +42,30 @@ class TextToSpeech:
         return None
 
     def text_to_speech(self, text, lang='fr'):
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
-            mp3_filename = temp_file.name
-
-        tts = gtts.gTTS(text, lang=lang)
-        tts.save(mp3_filename)
-        logging.info("Fichier audio temporaire créé.")
         try:
-            MP3(mp3_filename)
-            playsound(mp3_filename)
-            logging.info("Lecture du fichier audio.")
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
+                mp3_filename = temp_file.name
+            tts = gtts.gTTS(text, lang=lang)
+            tts.save(mp3_filename)
+            logging.info("Fichier audio temporaire créé.")
+
+            if os.path.exists(mp3_filename):
+                audio = MP3(mp3_filename)
+                playsound(mp3_filename)
+                logging.info("Lecture du fichier audio.")
+            else:
+                logging.error("Le fichier audio n'existe pas.")
+                print("Erreur : le fichier audio n'existe pas.")
         except Exception as e:
             print(f"Erreur lors de la lecture du fichier audio : {e}")
             logging.error(f"Erreur lors de la lecture du fichier audio : {e}")
         finally:
             time.sleep(1)
-            os.remove(mp3_filename)
-            logging.info("Fichier audio temporaire supprimé.")
+            if os.path.exists(mp3_filename):
+                os.remove(mp3_filename)
+                logging.info("Fichier audio temporaire supprimé.")
+            else:
+                logging.error("Le fichier audio n'existe pas.")
 
     def start_text_to_speech_thread(self, text, lang='fr'):
         thread = threading.Thread(target=self.text_to_speech, args=(text, lang))
