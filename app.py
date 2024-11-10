@@ -10,6 +10,10 @@ from myIA.weather import Weather
 from login.login import UserManager
 import time
 import os
+import sys
+import itertools
+import threading
+import json
 from rich.console import Console
 from rich.markdown import Markdown
 
@@ -36,6 +40,7 @@ class Chatbot:
         self.weather = Weather()
         self.user_manager = UserManager()
         self.console = Console()
+        self.stop_loading_event = threading.Event()
 
     def add_message(self, role, content):
         """Ajoute un message et le sauvegarde dans la mémoire JSON"""
@@ -45,10 +50,28 @@ class Chatbot:
         self.messages.append({"role": role, "content": content})
         self.memory.add("messages", self.messages)
         print(f"L'information : '{content}' a été ajouté avec succès. Avce le rôle : '{role}'.")
-    
+
+    def load_session(self, session_name):
+        """Charge une session sauvegardée dans la mémoire JSON"""
+        session_path = os.path.join('sessions', f"{session_name}.json")
+        if os.path.exists(session_path):
+            with open(session_path, 'r') as file:
+                self.messages = self.memory.get("messages") + json.load(file)
+                self.memory.load_json_in_conversation(session_path)
+                print(f"""Session '{session_name}' chargée avec succès.
+                      """)
+                self.memory.display_session_content(session_name)
+        else:
+            print(f"Session '{session_name}' non trouvée.")
+
     def start(self):
-        print("Bonjour ! Posez-moi une question (ou tapez 'quit' pour quitter).")
         self.user_manager.connection_menu()
+        print("Bonjour ! Posez-moi une question (ou tapez 'quit' pour quitter).")
+        if (self.memory.display_sessions_history()):
+            print('')
+            print("Voici les sessions de chat sauvegardées : ", self.memory.display_sessions_history())
+            print("Pour charger une session, tapez '--loadSession nom_de_la_session'.")
+            print('')
         while True:
             user_input = input("Vous : ")
 
@@ -93,24 +116,51 @@ class Chatbot:
                 else:
                     print("Chatbot : Je ne connais pas cette ville.")
             
+            elif user_input.startswith("--saveSession"):
+                user_input = user_input.replace("--saveSession", "").strip()
+                self.memory.save_session(user_input)
+                print("Chatbot : La session a été sauvegardée avec succès.")
+
+            elif user_input.startswith("--loadSession"):
+                user_input = user_input.replace("--loadSession", "").strip()
+                self.load_session(user_input)
+
+            elif user_input.startswith("--createSession"):
+                self.memory.create_other_session()
+                self.messages = self.memory.get("messages")
+
             else:
                 self.get_response(user_input)
 
+    def loader(self):
+        spin = itertools.cycle(['| ', '/ ', '- ', '\\ '])
+        while not self.stop_loading_event.is_set():
+            sys.stdout.write(f'\rLoading {next(spin)}')
+            sys.stdout.flush()
+            time.sleep(0.1)
+
     def get_response(self, user_input):
+        self.stop_loading_event.clear()
+        loader_thread = threading.Thread(target=self.loader)
+        loader_thread.start()
         try:
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
-                messages=self.messages + [{"role": "user", "content": user_input}],
+                messages=self.messages,
                 temperature=1,
                 max_tokens=2048,
                 top_p=1,
                 frequency_penalty=0,
                 presence_penalty=0
             )
+            self.stop_loading_event.set()
+            loader_thread.join()
 
-            self.messages.append({"role": "user", "content": user_input})
             bot_reply = response.choices[0].message.content
+            self.messages.append({"role": "user", "content": user_input})
             self.messages.append({"role": "assistant", "content": bot_reply})
+            self.memory.add_message_to_conversation_session("user", user_input)
+            self.memory.add_message_to_conversation_session("assistant", bot_reply)
             md = Markdown(bot_reply)
             self.console.print("Chatbot :", md)
 

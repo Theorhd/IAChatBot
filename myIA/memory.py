@@ -23,6 +23,7 @@ class Memory:
     def __init__(self):
         self.data = {}
         self.load()
+        self.conversation = []
         logging.info("Initialisation de la mémoire du chatbot.")
 
     def load(self):
@@ -55,3 +56,50 @@ class Memory:
             del self.data[key]
             self.save()
             logging.info(f"Suppression de la clé '{key}' de la mémoire du chatbot.")
+    
+    def add_message_to_conversation_session(self, role, content):
+        """Ajoute un message et le sauvegarde dans la mémoire JSON"""
+        if role not in ["user", "assistant", "system"]:
+            logging.error("Le rôle doit être 'user', 'assistant' ou 'system'.")
+            return None
+        self.conversation.append({"role": role, "content": content})
+        return True
+    
+    def save_session(self, name):
+        session_dir = os.path.join(parent, "sessions")
+        if not os.path.exists(session_dir):
+            os.makedirs(session_dir, exist_ok=True)
+        session_path = os.path.join(session_dir, f"{name}.json")
+        with open(session_path, 'w', encoding='utf-8') as file:
+            json.dump(self.conversation, file, indent=4)
+        logging.info(f"Sauvegarde de la session de conversation '{name}'.")
+
+    def create_other_session(self):
+        self.conversation = []
+        print("""Création d'une nouvelle session de conversation.
+              """)
+        logging.info("Création d'une nouvelle session de conversation.")
+
+    def load_json_in_conversation(self, path):
+        with open(path, 'r', encoding='utf-8') as file:
+            self.conversation = json.load(file)
+
+    def display_sessions_history(self):
+        sessions_dir = os.path.join(parent, "sessions")
+        if os.path.exists(sessions_dir):
+            sessions = os.listdir(sessions_dir)
+            if sessions:
+                return [os.path.splitext(session)[0] for session in sessions]
+        return False
+    
+    def display_session_content(self, session_name):
+        session_path = os.path.join(parent, "sessions", f"{session_name}.json")
+        if os.path.exists(session_path):
+            with open(session_path, 'r', encoding='utf-8') as file:
+                conversation = json.load(file)
+                for message in conversation:
+                    role_display = "Vous" if message['role'] == "user" else "Chatbot"
+                    print(f"""{role_display} : {message['content']}
+                          """)
+                return True
+        return False

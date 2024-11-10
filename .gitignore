@@ -5,3 +5,4 @@ chatbot_data.json
 login.db
 /venv/
 /.venv/
+/sessions/
