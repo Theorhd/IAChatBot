@@ -125,6 +125,10 @@ class Chatbot:
                 user_input = user_input.replace("--loadSession", "").strip()
                 self.load_session(user_input)
 
+            elif user_input.startswith("--createSession"):
+                self.memory.create_other_session()
+                self.messages = self.memory.get("messages")
+
             else:
                 self.get_response(user_input)
 
@@ -142,7 +146,7 @@ class Chatbot:
         try:
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
-                messages=self.messages + [{"role": "user", "content": user_input}],
+                messages=self.messages,
                 temperature=1,
                 max_tokens=2048,
                 top_p=1,

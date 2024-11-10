@@ -74,6 +74,12 @@ class Memory:
             json.dump(self.conversation, file, indent=4)
         logging.info(f"Sauvegarde de la session de conversation '{name}'.")
 
+    def create_other_session(self):
+        self.conversation = []
+        print("""Création d'une nouvelle session de conversation.
+              """)
+        logging.info("Création d'une nouvelle session de conversation.")
+
     def load_json_in_conversation(self, path):
         with open(path, 'r', encoding='utf-8') as file:
             self.conversation = json.load(file)
