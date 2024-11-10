@@ -1,6 +1,8 @@
 import os
 import json
 import logging
+from rich.console import Console
+from rich.markdown import Markdown
 
 parent = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 chemin_log = os.path.join(parent, "logs", "theogpt.log")
@@ -24,6 +26,7 @@ class Memory:
         self.data = {}
         self.load()
         self.conversation = []
+        self.console = Console()
         logging.info("Initialisation de la mémoire du chatbot.")
 
     def load(self):
@@ -108,7 +111,10 @@ class Memory:
                 conversation = json.load(file)
                 for message in conversation:
                     role_display = "Vous" if message['role'] == "user" else "Chatbot"
-                    print(f"""{role_display} : {message['content']}
-                          """)
+                    texte = f"""{role_display} : {message['content']}
+                          """
+                    md = Markdown(texte)
+                    self.console.print(md)
+                    print(" ")
                 return True
         return False
