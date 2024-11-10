@@ -58,7 +58,8 @@ class Chatbot:
             with open(session_path, 'r') as file:
                 self.messages = self.memory.get("messages") + json.load(file)
                 self.memory.load_json_in_conversation(session_path)
-                print(f"""Session '{session_name}' chargée avec succès.
+                print(f"""
+Session '{session_name}' chargée avec succès.
                       """)
                 self.memory.display_session_content(session_name)
         else:
