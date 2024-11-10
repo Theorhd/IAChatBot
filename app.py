@@ -129,6 +129,14 @@ class Chatbot:
                 self.memory.create_other_session()
                 self.messages = self.memory.get("messages")
 
+            elif user_input.startswith("--deleteSession"):
+                user_input = user_input.replace("--deleteSession", "").strip()
+                check = self.memory.delete_session(user_input)
+                if (check):
+                    print("Chatbot : La session a été supprimée avec succès.")
+                else:
+                    print("Chatbot : La session n'existe pas.")
+
             else:
                 self.get_response(user_input)
 
