@@ -57,13 +57,21 @@ class Chatbot:
         if os.path.exists(session_path):
             with open(session_path, 'r') as file:
                 self.messages = json.load(file)
-                print(f"Session '{session_name}' chargée avec succès.")
+                self.memory.load_json_in_conversation(session_path)
+                print(f"""Session '{session_name}' chargée avec succès.
+                      """)
+                self.memory.display_session_content(session_name)
         else:
             print(f"Session '{session_name}' non trouvée.")
 
     def start(self):
-        print("Bonjour ! Posez-moi une question (ou tapez 'quit' pour quitter).")
         self.user_manager.connection_menu()
+        print("Bonjour ! Posez-moi une question (ou tapez 'quit' pour quitter).")
+        if (self.memory.display_sessions_history()):
+            print('')
+            print("Voici les sessions de chat sauvegardées : ", self.memory.display_sessions_history())
+            print("Pour charger une session, tapez '--loadSession nom_de_la_session'.")
+            print('')
         while True:
             user_input = input("Vous : ")
 

@@ -73,3 +73,27 @@ class Memory:
         with open(session_path, 'w', encoding='utf-8') as file:
             json.dump(self.conversation, file, indent=4)
         logging.info(f"Sauvegarde de la session de conversation '{name}'.")
+
+    def load_json_in_conversation(self, path):
+        with open(path, 'r', encoding='utf-8') as file:
+            self.conversation = json.load(file)
+
+    def display_sessions_history(self):
+        sessions_dir = os.path.join(parent, "sessions")
+        if os.path.exists(sessions_dir):
+            sessions = os.listdir(sessions_dir)
+            if sessions:
+                return [os.path.splitext(session)[0] for session in sessions]
+        return False
+    
+    def display_session_content(self, session_name):
+        session_path = os.path.join(parent, "sessions", f"{session_name}.json")
+        if os.path.exists(session_path):
+            with open(session_path, 'r', encoding='utf-8') as file:
+                conversation = json.load(file)
+                for message in conversation:
+                    role_display = "Vous" if message['role'] == "user" else "Chatbot"
+                    print(f"""{role_display} : {message['content']}
+                          """)
+                return True
+        return False
