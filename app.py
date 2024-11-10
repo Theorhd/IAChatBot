@@ -146,7 +146,7 @@ class Chatbot:
         try:
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
-                messages=self.messages,
+                messages=self.messages + [{"role": "user", "content": user_input}],
                 temperature=1,
                 max_tokens=2048,
                 top_p=1,
